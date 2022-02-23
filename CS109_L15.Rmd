@@ -1,0 +1,143 @@
+---
+title: 'CS109: Introduction to Probability for Computer Scientists'
+author: "Olivia Beyer Bruvik"
+date: "Winter 2022"
+output:
+  html_document: default
+  pdf_document: default
+subtitle: 'Lecture 15: General Inference'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 15: General Inference {.tabset}
+
+## Topics
+
+## Bayesian Network
+### Constructing a Bayesian Network {.tabset}
+#### Bayesian Network
+Each RV is caused by its parents. <br>
+Def: $P(node|parents)$
+
+- Node: random variable
+- Directed edge: causality
+
+Generative model: a good probabilistic model is generative. It explains the process through which the joint is created.
+
+#### Bayes Nets: Conditional independence
+In a bayesian network, each RV is conditionally independent of its non-descendants, given its parents. 
+
+- Node: random variable
+- Directed edge: conditional dependency
+
+### Bayesian Network Assumption
+$P(Joint) = \prod{P(x_i|x_{i-1}, ..., x_1)}$ <br>
+$P(Joint) = \prod{ P(x_i | \text{Values of parents of } X_i)}$ <br>
+
+Assume: Once you know the value of the parents of a variable in your network, $X_i$, any further information about non-descendents will not change your belief in $X_i$.
+
+## Covariance and Correlation {.tabset}
+### Covariance:
+\[
+\begin{aligned}
+Cov(X,Y) &= E[(X-E[X])(Y-E[Y])] \\
+&= E[XY] - E[Y]E[X]
+\end{aligned}
+\]
+
+NB! Covariance of zero does not mean independence!
+
+### Correlation
+\[
+\begin{aligned}
+\rho (X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}
+\end{aligned}
+\]
+
+Correlation is just normalized covariance:
+\[
+\begin{aligned}
+Cov(X,Y) < \sqrt{Var(X)Var(Y)} \\
+Cov(X,Y) > -\sqrt{Var(X)Var(Y)}
+\end{aligned}
+\]
+
+## Inference {.tabset}
+An updated belief about a random variable (or multiple) based on conditional knowledge regarding another random variable (or multiple) in a probabilistic model.
+
+### Problem: Simple Disease Model
+Parents:
+\[
+\begin{aligned}
+P(F_lu = 1) &= 0.1 \\
+P(U = 1) &= 0.8
+\end{aligned}
+\]
+
+Nodes:
+\[
+\begin{aligned}
+P(F_ev = 1| F_lu = 1) &= 0.9 \\
+P(F_ev = 1| F_lu = 0) &= 0.05 \\
+\\
+P(T = 1| F_lu = 0, U = 0) &= 0.1 \\
+P(T = 1| F_lu = 0, U = 1) &= 0.8 \\
+P(T = 1| F_lu = 1, U = 0) &= 0.9 \\
+P(T = 1| F_lu = 0, U = 1) &= 1.0 \\
+\end{aligned}
+\]
+
+Problem:
+\[
+\begin{aligned}
+P(F_{lu} = 1 | F_{ev} = 0, U = 0, T=1)? \\
+P(F_{lu} = 1 | U = 1, T=1)
+\end{aligned}
+\]
+
+### Solution
+```{python, eval = FALSE}
+def get_prob_Xi(x, parents):
+  # what is the probability that Xi = x
+  # given the list parents of assignments to 
+  # the parents variables Xi
+```
+
+Probability conditioning on three variables:
+\[
+\begin{aligned}
+P(F_{lu} = 1 | F_{ev} = 0, U = 0, T=1) = \frac{P(F_{lu} = 1, F_{ev} = 0, U = 0, T=1)}{\sum_xP(F_{lu} = x, F_{ev} = 0, U = 0, T=1)}
+\end{aligned}
+\]
+
+Probability conditioning on two variables:
+\[
+\begin{aligned}
+P(F_{lu} = 1 | U = 1, T=1) = \frac{\sum_y P(F_{lu} = 1, F_{ev} = y, U = 1, T=1)}{\sum_x \sum_y P(F_{lu} = x, F_{ev} = y, U = 0, T=1)}
+\end{aligned}
+\]
+
+## Rejection sampling algorithm
+0. Have a fully specified Bayesian Network
+1. 
+
+$$
+probability \approx 
+\frac{
+  \text{# samples with } (F_{lu} = 1, U = 1, T = 1)}
+  {\text{# samples with } (U = 1, T = 1)
+}
+$$
+
+Possible due to our definition of probability as a frequency.
+$$
+P(E) = \lim_{x \to \infty} \frac{n(E)}{n}
+$$
+
+### Other algorithms
+1. Markov Chains Monte Carlo
+2. Pyro
+3. Idea2Text

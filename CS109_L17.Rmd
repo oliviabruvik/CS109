@@ -1,0 +1,174 @@
+---
+title: "CS109: Introduction to Probability for Computer Scientists"
+subtitle: "Lecture 17: Adding Random Variables"
+author: "Olivia Beyer Bruvik"
+date: "Winter 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 17: Adding Random Variables {.tabset}
+
+## Topics
+
+## IID Random Variables
+
+Consider n random variables $X_1, X_2, ..., X_n$:
+
+- X_i are all independently and identically distributed
+- All have the same:
+    + PMF or PDF
+    + Expectation
+    + Variance
+- Example: $X_i \sim \exp(\lambda), X_i$ are independent
+
+## Convolution {.tabset}
+Adding random variables
+
+### Example: Zero sum game {.tabset}
+#### Problem
+What is the probability that team Warriors win if the two teams have abilities:
+$$
+A_w \sim N(1979, 200^2) \\
+A_B \sim N(1555, 200^2) \\
+$$
+
+#### Solution
+The probability that the warriors win is:
+\[
+\begin{aligned}
+P(Warriors \ win) &= P(A_W > A_B) \\
+&= P(A_W - A_0 > 0)
+\end{aligned}
+\]
+
+
+\[
+\begin{aligned}
+-A_0 \sim N(-1555, 200^2) \\
+D = A_W + (-A_0) \\
+D \sim N(242,2 \times 200^2) \\
+P(D > 0) = 1-F_D(0) \approx 0.84
+\end{aligned}
+\]
+
+### Example: die {.tabset}
+#### Problem
+Calculate: 
+
+1) Sum of two dice
+2) Sum of three dice
+3) Sum of three dice
+
+#### Solution
+1) Sum of two dice: $Y = \sum_{i=1}^2 X_i$
+$P(X+Y=n) = \sum_{i=1}^{n-1} P(X=i, Y=n-i)$
+2) Sum of three dice: $Y = \sum_{i=1}^3 X_i$
+3) Sum of three dice: $Y = \sum_{i=1}^3 X_i$
+
+### Example: the Insight to Convolution {.tabset}
+#### Problem
+Imagine a game where each player independently scores between 0 and 100 points. <br>
+Let X be the amount of points you score. <br>
+Let Y be the amount of points your opponent scores. <br>
+
+Probability of a tie?
+
+#### Solution
+The probability of a tie is:
+\[
+\begin{aligned}
+P(tie) &= \sum_{i=0}^{100} P(X=i, Y=i) \\
+&= \sum_{i=0}^{100} P(X=i)P(Y=i)
+\end{aligned}
+\]
+
+Since the events are mutually exclusive events,
+\[
+\begin{aligned}
+P(X + Y = n) &= \sum_{k=0}^nP(X=k, Y=n-k)
+\end{aligned}
+\]
+
+## Sum of Independent Random Variables {.tabset}
+### Sum of Independent Binomials
+Let X and Y be independent binomials with the same value for p:
+
+- $X \sim Bin(n_1, p)$ and $Y \sim Bin(n_2, p)$
+- $X+Y ~ Bin(n_1 + n_2, p)$
+
+### Sum of Independent Normals
+Let X and Y be *independent* random variables:
+
+- $X \sim N(\mu_1, \sigma_1^2)$ and $Y \sim N(\mu_2, \sigma_2^2)$
+- $X+Y \sim N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$
+
+Generally, have n independent RV $X_i \sim N(\mu_i, \sigma_i^2)$ for i = 1, 2, ..., n:
+
+$$
+(\sum_{i=1}^n X_i) \sim N(\sum_{i=1}^n \mu_i, \sum_{i=1}^n \sigma_i^2)
+$$
+
+### Sum of Independent Poissons
+Let X and Y be independent random variables:
+
+- $X \sim Poi(\lambda_1)$ and $Y \sim Poi(\lambda_2)$
+- $X+Y \sim Poi(\lambda_1 + \lambda_2)$
+
+### Example: Virus Infections {.tabset}
+#### Problem
+Say you are working with the WHO to plan a
+response to a the initial conditions of a virus:
+
+- Two exposed groups
+- P1: 50 people, each independently infected with p = 0.1
+- P2: 100 people, each independently infected with p = 0.4
+
+Question: Probability of more than 40 infections?
+
+#### Solution
+Let A represent the number of infected in P1. $A \sim Bin(50, 0.1) \approx X \sim N(5, 4.5)$ <br>
+Let B represent the number of infected in P2. $B \sim Bin(50, 0.1) \approx Y \sim N(40, 24)$ <br>
+
+$P(A+B \geq 40) \approx P(X+Y \geq 39.5)$ <br>
+$X+Y = W \sim N(5+40=45, 4.5+24=28.5)$ <br>
+
+Then, 
+\[
+\begin{aligned}
+P(W > 39.5) &= 1-P(X < 39.5) \\
+&= 1 - F_X(39.5) \\
+&= 1-\phi(\frac{39.5-45}{\sqrt(28.5)}) \\
+&\approx 0.8485
+\end{aligned}
+\]
+
+## Linear Transform
+Thinking of Y as a linear transform
+$$
+X \sim N(\mu, \sigma^2) \\
+Y = X + X = 2 \times X \\
+Y \sim N(2\mu, 4\sigma^2)
+$$
+
+## Discrete Vs Continuous
+Discrete: $P(X+Y = a) = \sum_{y=-\inf}^{\inf}P(X=a-y)P(Y=y)dy$ <br>
+Continuous: $f(X+Y = a) = \int_{y=-\inf}^{\inf} f(X=a-y)f(Y=y)dy$
+
+## Sum of independent uniforms
+Let X and Y be independent random variables:
+
+- $X \sim Uni(0, 1)$ and $Y \sim Uni(0,1)$
+- $X+Y \sim Poi(\lambda_1 + \lambda_2)$
+
+\[
+\begin{aligned}
+f(X + Y = a) &= \int_{y=-\inf}^{\inf} f(X = a-y)f(Y=y) \ dy \\
+f(X + Y = 0.5) &= \int_{y=0}^{1} f(X = 0.5-y) \times 1 \ dy \\
+&= \int_{y=0}^{0.5} f(X = 0.5-y) \times 1 \ dy \\
+&= \int_{y=0}^{0.5} 1 \times 1 \ dy = 0.5
+\end{aligned}
+\]

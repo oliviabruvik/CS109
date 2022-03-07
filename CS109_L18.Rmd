@@ -1,0 +1,181 @@
+---
+title: 'CS109: Probability for Computer Scientists'
+author: "Olivia Beyer Bruvik"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+  output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
+subtitle: 'Lecture 18: CLT and Sampling'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 18: CLT and Sampling {.tabset}
+
+## Topics
+
+## Central Limit Theorem
+Consider n independent and identically distributed (i.i.d) variables $X_1, X_2, ..., X_n$ with $E[X_i] = \mu$ and $Var(X_i) = \sigma^2$.
+
+$$
+\sum_{i=1}^n X_i \sim N(n \mu, n \sigma^2)
+$$
+
+The sum of n i.i.d random variables is normally distributed with mean $n \mu$ and variance $n \sigma^2$ as $n \to \infty$. 
+
+## Normal approximation of Binomial
+Let $X_i \sim Ber(p)$ for $i = 1, ..., n$ where $X_i$ are i.i.d. <br>
+$E[X_i] = p$, $Var(X_i) = p(1-p)$ <br>
+
+Sum of i.i.d. Bernoulli RVs $\approx$ Normal
+$$
+X = \sum_{i=1}^n X_i \\
+X \sim N(n \mu, n \sigma^2) \\
+X \sim N(np, np(1-p) \\
+$$
+
+## Example: CLT problem {.tabset}
+### Problem
+You hit 10 traffic lights on your way to work. You don't know the full distribution of the wait time, but for each you observe the average wait time is 45 seconds and the standard deviation is 5 seconds. You will be on time if your total wait time is less than 8 mins. What is the probability that you are on time? Assume the wait times are IID.
+
+### Solution
+Let T be the total wait time. <br>
+It is the sum of the 10 IID wait times. By the CLT,
+
+$$
+T \sim N(n \mu, n \sigma^2) \\
+T \sim N(450, 250) \\
+P(T \leq 480) = \phi (\frac{480-450}{15.8}) \approx 0.97
+$$
+
+## Proof of CLT
+- The Fourier Transform of a PDF is called a characteristic function.
+- Take the characteristic function of the probability mass of the sample, normalized
+- Show that this approaches an
+exponential function in the limit as 𝑛 → ∞:
+- This function is in turn the characteristic function of a Normal Distribution
+
+## Testing CLT
+The sum of independent, identically distributed variables:
+
+$$
+Y = \sum_{i=1}^n X_i
+$$
+
+Is normally distributed:
+$$
+Y \sim N(n \mu, n \sigma^2),\\
+where \ \mu = E[X_i] \ and \ \sigma^2=Var(X_i)
+$$
+
+CLT holds if $n \geq 30$ (standard), but it can hold for smaller n depending on the distribution of your i.i.d. $X_i's$. 
+
+## Example: Sum of n independent Uniform RVs
+Let $X=\sum_{n=1}^n X_i$ be the sum of i.i.d. RVs, where $X_i \sim Uni(0,1)$. Let n = 10. <br>
+
+Exact: $P(X \leq 10/3) \approx 0.0337$ <br>
+CLT approximation:
+
+$$
+X \approx Y \sim N(n \mu, n \sigma^2) \Rightarrow Y ~ N(5, \frac{5}{6}) \\
+P(X \leq \frac{10}{3}) \approx P(Y \leq \frac{10}{3}) = \phi(\frac{\frac{10}{3}-5}{\sqrt{\frac{5}{6}}}) \approx 0.0339
+$$
+
+## Average of IID variables
+Let $X_i$ be i.i.d. variables. There are n. Let $\bar X$ be the average
+
+$$
+\bar X = \frac{1}{n} \sum_{i=1}^n X_i
+$$
+
+By the Central Limit Theorem, the mean of IID variables are distributed normally. As $n \to \infty$,
+
+$$
+\bar X \sim N(\mu, \frac{\sigma^2}{n})
+$$
+
+## Example: Continuous {.tabset}
+### Problem: Estimating Clock Running Time 
+Have new algorithm to test for running time
+
+- Mean (clock) running time: μ = t sec.
+- Variance of running time: s2 = 4 sec2.
+- Run algorithm repeatedly (I.I.D. trials), measure time
+  + How many trials s.t. estimated time = t ± 0.5 with 95% certainty?
+  + $X_i$= running time of i-th run (for $1 \leq i \leq n$), $\bar X$ is the mean
+
+### Solution
+\[
+\begin{aligned}
+\bar X \sim N(\mu, \frac{\sigma^2}{n}) &\sim N(t, \frac{4}{n}) \\
+Then, \\
+0.95 &= P(-0.5 < \bar X-t < 0.5) \\ 
+&= F_{\bar X - t}(0.5) - F_{\bar X - t}(-0.5) \\
+&= \phi(\frac{0.5-0}{\sqrt{\frac{4}{n}}}) - \phi(\frac{-0.5-0}{\sqrt{\frac{4}{n}}}) \\
+&= 2\phi(\frac{\sqrt{n}}{4})-1 \\
+Rearranging, \\
+\phi^{-1}(0.975) &= \frac{\sqrt{n}}{4} \\
+n &= 61.4
+\end{aligned}
+\]
+
+## Example: Discrete {.tabset}
+### Problem: Sum of Die
+You will roll 10 6-sided die $(X_1,X_2,...,X_10)$
+
+- X = total value of all 10 die = $X_1 +X_2 + ...+ X_10$
+- Win if: $X \leq 25$ or $X \geq 45$
+- What is the probability that you win?
+
+### Solution
+$\mu = E[X_i] = 3.5$ <br>
+$\sigma^2 = Var(X_i) = \frac{35}{12}$ <br>
+$X \approx N(35, 29.2)$
+
+$$
+Thus, \\
+1 - P(25.5 < X < 44.5) = 1 - P(\frac{25.5-35}{\sqrt{29.2}} < Z < \frac{44.5-35}{\sqrt{29.2}}) \\
+\approx 1 - (2\phi(1.76)-1) \approx 2(1-0.9608) = 0.0784
+$$
+
+## Sampling statistics {.tabset}
+Three types:
+
+### Known distribution, Parametric
+E.g. sample from a normal
+
+```{python, eval = FALSE}
+import numpy as np
+np.random.normal(10, 1) # 10.070856788485646
+np.random.normal(10, 1) # 9.95160925474276
+```
+
+### Known distribution, Non-Parametric
+E.g. sample from a histogram
+
+```{python, eval = FALSE}
+import numpy as np
+np.random.choice([0,1,2], p=[0.8,0.1,.1]) # 0
+np.random.choice([0,1,2], p=[0.8,0.1,.1]) # 2
+```
+
+### Unknown distribution, Non-Parametric
+E.g. get data from a trial <br>
+Allow us to think about probabilities of scientific claims. 
+
+```{python, eval = FALSE}
+test_algorithm_runtime() #12.1232394737634875
+test_algorithm_runtime() #18.2098234987956728
+```
+
+
+## A sample
+Consider n random variables $X_1, X_2, ..., X_N$. <br>
+The sequence $X_1, X_2, ..., X_N$ is a sample from distribution F if:
+
+- $X_i$ are all independent and identically distributed (i.i.d.)
+- $X_i$ all have same distribution function F (the underlying distribution), where $E[X_i] = \mu, Var(X_i) = \sigma^2$
+

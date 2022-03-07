@@ -1,0 +1,114 @@
+---
+title: 'CS109: Probability for Computer Scientists'
+author: "Olivia Beyer Bruvik"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+  output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
+subtitle: 'Lecture 24: Logistic Regression'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 24: Logistic Regression {.tabset}
+
+## Topics
+
+## Background: Sigmoid Function
+Forces input to be between 0 and 1.
+
+$$
+\sigma (x) = \frac{1}{1+e^{-x}} \\
+\theta ^Tx = \sum_{i=1}^n \theta_ix_i \\
+= \theta_1x_i + \theta_2x_2 + ... + \theta_n x_n \\
+\sigma (\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}
+$$
+
+## Logistic Regression
+$$
+P(Y=1|X=x) = \sigma(\sum_i \theta_ix_i) = \sigma(\theta^Tx)
+$$
+
+### Logistic Regression Assumption
+Model conditional likelihood $P(Y|X)$ directly:
+- Model this probabilituy with logistic function:
+
+$$
+P(Y=1|X=x) = \sigma(z) \ where \ z = \theta_0 + \sum_{i=1}^m \theta_ix_i
+$$
+- For simplicity define $x_0 = 1$ so $z = \theta^Tx$
+- Since P(Y=0|X) + P(Y=1|X) = 1:
+  + $P(Y=1|X=x) = \sigma(\theta^Tx)$
+  + $P(Y=0|X=x) = 1-\sigma(\theta^Tx)$
+
+### Name {.tabset}
+#### Regression Algorithms
+1. Linear regression
+
+#### Classification Algorithms
+1. Naive Bayes
+2. Logistic Regression
+
+### Intelligence
+Logistic regression gets its intelligence from its thetas
+
+## Math for Logistic Regression
+1. Make logistic assumption
+  + $P(Y=1|X=x) = \sigma(\theta^Tx)$
+  + $P(Y=0|X=x) = 1-\sigma(\theta^Tx)$
+2. Calculate the log likelighood for all data
+  + $LL(\theta) = \sum_{i=0}^n y^{(i)} log \sigma(\theta^Tx^{(i)}) + (1-y^{(i)}log[1-sigma(\theta^Tx^{(i)})]$
+3. Get derivative of log likelihood with respect to thetas
+  + $\frac{\delta LL(\theta)}{\delta \theta_j} = \sum_{i=1}^n [y^{(i)} - \sigma(\theta^Tx^{(i)})]x_j^{(i)}$
+
+### Gradient Ascent Step
+Do this for all thetas!
+$$
+\frac{\delta LL(\theta)}{\delta \theta_j} = \sum_{i=1}^n [y^{(i)} - \sigma(\theta^Tx^{(i)})]x_j^{(i)} \\
+\theta_j^{new} = \theta_j^{old} + n \times \frac{\delta LL(\theta^{old})}{\delta \theta_j^{old}} \\
+= \theta_j^{old} + n \times \sum_{i=1}^n [y^{(i)} - \sigma(\theta^Tx^{(i)})]x_j^{(i)} \\
+$$
+
+## Logistic Regression Training
+$\theta_j = 0 \ for \ all \ 0 \leq j \leq m$ <br>
+Calculate all $\theta_j$ <br>
+$x_j$ is the j-th input variable and $x_0=1$. Allows for $\theta_0$ to be an intercept. 
+
+### Code
+for i in range(n):
+  gradient[j] = 0 $for \ all \ 0 \leq j \leq m$
+  for each training example (x, y):
+    for each parameter j:
+      gradient[j] += $x_j(y - \frac{1}{1+e^{-\theta^Tx}})
+  $\theta_j += n \times gradient[j] \ for \ all \ 0 \leq j \leq m$
+
+## Classification with Logistic Regression
+Training: determine parameters $\theta_j \ for \ all \ 0 \leq j \leq m$.
+
+- After parameters $\theta_j$ have been learned, test classifier.
+
+To test classifier, for each new (test) instance X:
+
+1. Compute: $p = P(Y=1|X) = \frac{1}{1+e^{-z}}, \ where \ z=\theta^Tx$
+2. Classify instance as: $\hat y = 1$ if p>0.5, 0 otherwise. 
+3. Note about evaluation set-up: parameters are not updated during testing phase. 
+
+## Log Probability of Data
+### PMF of Bernoulli
+- $Y \sim Ber(p)$
+- Probability mass function: $P(Y=y) = p^y(1-p)^{1-y}$
+
+$$
+P(Y=1|X=x) = \sigma(\theta^Tx) \\
+P(Y=0|X=x) = 1-\sigma(\theta^Tx)
+$$
+
+$$
+P(Y=1|X=x) = \sigma(\theta^Tx)^y \times [1-\sigma(\theta^Tx)]^{1-y} \\
+L(\theta) = \prod_{i=1}^n P(Y=y^{(i)}|X=x^{(i)}) \\
+= \prod_{i=1}^n \sigma(\theta^Tx^{(i)})^y^{(i)} \times [1-\sigma (\theta^T x)]^{1-y} \\
+LL(\theta) = \sum_{i=1}^n y^{(i)} log \sigma(\theta)
+$$

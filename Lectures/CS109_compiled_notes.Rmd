@@ -1,0 +1,32 @@
+---
+title: 'CS109: Probability for Computer Scientists'
+subtitle: 'Stanford University'
+author: "Olivia Beyer Bruvik"
+date: "Winter 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(knitr.duplicate.label='allow')
+```
+
+```{r child = "CS109_L15.Rmd"}
+```
+
+```{r child = "CS109_L16.Rmd"}
+```
+
+```{r child = "CS109_L17.Rmd"}
+```
+
+```{r child = "CS109_L18.Rmd"}
+```
+
+```{r child = "CS109_L19.Rmd"}
+```
+
+```{r child = "CS109_L20.Rmd"}
+```
+
+```{r child = "CS109_L23.Rmd"}
+```

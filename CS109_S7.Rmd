@@ -1,0 +1,80 @@
+---
+title: "CS109: Introduction to Probability for Computer Scientists"
+subtitle: "Section 7: Solution"
+author: "Olivia Beyer Bruvik"
+date: "Winter 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Section 7: Solution {.tabset}
+
+## Problem 1: Binary Tree {.tabset}
+### Problem
+Binary Tree: Consider the following function for constructing binary trees:
+```{python, eval = FALSE}
+def random_binary_tree (p):
+  """
+  Returns a dictionary representing a random binary tree structure.
+  The dictionary can have two keys , "left" and "right".
+  """
+  if random_bernoulli (p): # returns true with probability p
+    new_node = {}
+    new_node["left"] = random_binary_tree (p)
+    new_node["right"] = random_binary_tree (p)
+    return random_binary_tree
+  else:
+    return None
+```
+
+
+The if branch is taken with probability 𝑝 (and the else branch with probability 1 − 𝑝). A tree
+with no nodes is represented by nullptr; so a tree node with no left child has nullptr for the
+left field (and the same for the right child).
+Let 𝑋 be the number of nodes in a tree returned by randomTree. You can assume 0 < 𝑝 < 0.5.
+What is 𝐸[𝑋], in terms of 𝑝?
+
+### Solution
+\[
+\begin{aligned}
+E[X] &= \sum E[X|Y=y]P(Y=y) \\
+&= E[X|if]P(if) + E[X|else]P(else) \\
+&= (1 + 2E[X])p + 0\times (1-p) \\
+&= p + 2pE[X] \\
+&= \frac{p}{1-2p}
+\end{aligned}
+\]
+
+## Problem 2: Timing Attack {.tabset}
+### Problem
+In this problem we are going to show you how to crack a password in linear time, by measuring
+how long the password check takes to execute (see code below). Assume that our server takes 𝑇
+ms to execute any line in the code where 𝑇 ∼ 𝑁(𝜇 = 5, 𝜎2 = 0.5) seconds. The amount of time
+taken to execute a line is always independent of other values of 𝑇.
+
+# An insecure string comparison
+def string_equals (guess , password):
+n_guess = len(guess)
+n_password = len( password )
+if n_guess != n_password :
+return False # 4 lines executed to get here
+for i in range(n_guess):
+if guess[i] != password[i]:
+return False # 6 + 2i lines executed to get here
+return True # 5 + 2n lines executed to get here
+On our site all passwords are length 5 through 10 (inclusive) and are composed of lower case
+letters only. A hacker is trying to crack the root password which is “gobayes" by carefully
+measuring how long we take to tell them that her guesses are incorrect.
+a. What is the distribution of time that it takes our server to execute 𝑘 lines of code? Recall
+that each line independently takes 𝑇 ∼ 𝑁(𝜇 = 5, 𝜎2 = 0.5) ms.
+
+### Solution 
+Error bar (A) = $\sqrt{6.0}$ <br>
+Error bar (B) = $\sqrt{9.1}$  <br>
+
+Null hypothesis: observed difference is by random chance.
+
+$P(h_0) = \frac{count}{10000}$, $p-value \approx 0.12 > 0.05$ 

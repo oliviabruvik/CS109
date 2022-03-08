@@ -30,3 +30,9 @@ options(knitr.duplicate.label='allow')
 
 ```{r child = "CS109_L23.Rmd"}
 ```
+
+```{r child = "CS109_L24.Rmd"}
+```
+
+```{r child = "CS109_L25.Rmd"}
+```

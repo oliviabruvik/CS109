@@ -3,8 +3,8 @@ title: 'CS109: Probability for Computer Scientists'
 author: "Olivia Beyer Bruvik"
 date: "`r Sys.Date()`"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
 subtitle: 'Lecture 24: Logistic Regression'
 ---
@@ -34,7 +34,8 @@ $$
 
 ### Logistic Regression Assumption
 Model conditional likelihood $P(Y|X)$ directly:
-- Model this probabilituy with logistic function:
+
+- Model this probability with logistic function:
 
 $$
 P(Y=1|X=x) = \sigma(z) \ where \ z = \theta_0 + \sum_{i=1}^m \theta_ix_i
@@ -82,7 +83,7 @@ for i in range(n):
   gradient[j] = 0 $for \ all \ 0 \leq j \leq m$
   for each training example (x, y):
     for each parameter j:
-      gradient[j] += $x_j(y - \frac{1}{1+e^{-\theta^Tx}})
+      gradient[j] += $x_j(y - \frac{1}{1+e^{-\theta^Tx}})$
   $\theta_j += n \times gradient[j] \ for \ all \ 0 \leq j \leq m$
 
 ## Classification with Logistic Regression
@@ -109,6 +110,10 @@ $$
 $$
 P(Y=1|X=x) = \sigma(\theta^Tx)^y \times [1-\sigma(\theta^Tx)]^{1-y} \\
 L(\theta) = \prod_{i=1}^n P(Y=y^{(i)}|X=x^{(i)}) \\
-= \prod_{i=1}^n \sigma(\theta^Tx^{(i)})^y^{(i)} \times [1-\sigma (\theta^T x)]^{1-y} \\
+\prod_{i=1}^n \sigma \theta^T x^{(i)} y^{(i)} \times [1- \sigma \theta^T x]^{1-y} \\
 LL(\theta) = \sum_{i=1}^n y^{(i)} log \sigma(\theta)
 $$
+
+
+## Deep learnin
+Stacked logistic regression

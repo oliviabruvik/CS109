@@ -10,29 +10,34 @@ output: html_document
 options(knitr.duplicate.label='allow')
 ```
 
-```{r child = "CS109_L15.Rmd"}
+```{r child = "CS109_L26.Rmd"}
 ```
 
-```{r child = "CS109_L16.Rmd"}
-```
-
-```{r child = "CS109_L17.Rmd"}
-```
-
-```{r child = "CS109_L18.Rmd"}
-```
-
-```{r child = "CS109_L19.Rmd"}
-```
-
-```{r child = "CS109_L20.Rmd"}
-```
-
-```{r child = "CS109_L23.Rmd"}
+```{r child = "CS109_L25.Rmd"}
 ```
 
 ```{r child = "CS109_L24.Rmd"}
 ```
 
-```{r child = "CS109_L25.Rmd"}
+```{r child = "CS109_L23.Rmd"}
 ```
+
+```{r child = "CS109_L20.Rmd"}
+```
+
+```{r child = "CS109_L19.Rmd"}
+```
+
+```{r child = "CS109_L18.Rmd"}
+```
+
+```{r child = "CS109_L17.Rmd"}
+```
+
+```{r child = "CS109_L16.Rmd"}
+```
+
+```{r child = "CS109_L15.Rmd"}
+```
+
+

@@ -1,0 +1,158 @@
+---
+title: 'CS109: Probability for Computer Scientists'
+author: "Olivia Beyer Bruvik"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+  output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
+subtitle: 'Lecture 21: Parameter Estimation'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 21: Parameter Estimation {.tabset}
+
+## Topics
+
+## What are Parameters?
+### Parametric models - probability distributions:
+- $Ber(p) \Rightarrow \theta = p$
+- $Poi(\lambda) \Rightarrow \theta = \lambda$ 
+- $Uni(\alpha, \beta) \Rightarrow \theta = (\alpha, \beta)$ 
+- $Normal(\mu, \sigma^2) \Rightarrow \theta = (\mu, \sigma^2)$
+- $Y=X+b \Rightarrow \theta = (m,b)$
+
+### Theta
+- Parameters that yield actual distributions
+- Often referred to as $\theta$, which can also be a vector of parameters. 
+- Used to model real world problem and train a learning algorithm. 
+
+## Parameter estimation {.tabset}
+### Unbiased estimators
+$X_1, X_2, ..., X_n$ are n i.i.d. RV. where $X_i$ drawn from distribution F with $E[X_i] = \mu, Var(X_i) = \sigma^2$:
+
+- Sample mean: $\bar X = \frac{1}{n} \sum_{i=1}^n X_i$
+- Sample variance: $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar X)^2$
+
+## Maximising likelihood
+### Method
+1. Decide on a model for the distribution of your samples and define PMF/PDF. 
+2. Write out the log likelihood function: 
+3. State that the optional parameters are the argmax of the log likelihood function. 
+4. Use an optimization algorithm to calculate argmax. 
+
+### Log likelihood function
+$$
+L(\theta) = \prod_{i=1}^n f(X_i | \theta) \\
+LL(\theta) = \sum_{i=1}^n log \ f(X_i | \theta) \\
+\hat \theta = argmax \ LL(\theta)
+$$
+
+### Computing argmax
+1. Straight optimization
+
+$$
+\hat x = argmax \ f(x) \\ 
+\frac{d}{dx} f(x) = 0 \Rightarrow \hat x = 0 \\
+LL(\theta) = \sum_{i=1}^n log \ f(X_i | \theta) \Rightarrow \ maximise \ \frac{\delta LL(\theta)}{\delta \theta} = 0
+$$
+
+## Parametric models {.tabset}
+### MLE for Bernoulli
+Consider I.I.D. RV $X_1, X_2, ..., X_n$:
+
+- $X_i \sim Ber(p)$
+- Probability mass function, $f(X_i|p) = p^{x_i}(1-p)^{1-x_i}$
+
+$$
+f(X=x|p) = p^x(1-p)^{1-x}
+$$
+
+Finding the MLE of the Bernoulli parameter, $p_{MLE}$, which is the unbiased estimate of the mean, $\bar X$ (sample mean):
+1. Determine formula for $LL(\theta)$
+
+\[
+\begin{aligned}
+LL(\theta) &= \sum_{i=1}^n logf(X_i|p) = \sum_{i=1}^n log (p^{X_i}(1-p)^{1-X_i}) \\
+&= \sum_{i=1}^n [X_i logp + (1-X_i)log(1-p)] \\
+&= Y(logp) + (n-Y)log(1-p), where \ Y= \sum_{i=1}^n X_i
+\end{aligned}
+\]
+
+2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+
+$$
+\frac{\delta LL(\theta)}{\delta \theta} = Y \frac{1}{p} + (n-Y) \frac{-1}{1-p} = 0
+$$
+
+3. Solve resulting equations
+$$
+p_{MLE} = \frac{1}{n}Y = \frac{1}{n} \sum_{i=1}^n X_i
+$$
+NB! MLE of the Bernoulli is the sample mean. 
+
+### MLE for Poisson
+Consider n I.I.D. RV $X_1, X_2, ..., X_n$:
+
+- Let $X_i \sim Poi(\lambda)$
+- Probability mass function, $f(X_i|\lambda) = \frac{e^{-\lambda} \lambda^{X_i}}{X_i!}$
+
+Finding the MLE of the Poisson parameter, $\lambda_{MLE}$:
+1. Determine formula for $LL(\theta)$
+
+\[
+\begin{aligned}
+LL(\theta) &= \sum_{i=1}^n log(\frac{e^{-\lambda} \lambda^{X_i}}{X_i!}) = \sum_{i=1}^n (-\lambda log e + X_ilog \lambda - log X_i!) \\
+&= -n \lambda + log(\lambda) \sum_{i=1}^n X_i - \sum_{i=1}^n log (X_i!)
+\end{aligned}
+\]
+
+2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+
+$$
+\frac{\delta LL(\theta)}{\delta \lambda} = -n + \frac{1}{\lambda} \sum_{i=1}^n X_i = 0
+$$
+
+3. Solve resulting equations
+$$
+\lambda_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i
+$$
+
+### MLE for Normal
+Consider n I.I.D. RV $X_1, X_2, ..., X_n$:
+
+- Let $X_i \sim N(\mu, \sigma^2)$
+- Probability mass function, $f(X_i|\mu, \sigma^2) = \frac{1}{\sqrt{2 \pi} \sigma} e^{(-X_i-\mu)^2/(2\sigma^2)}$
+
+Finding the MLE of the Poisson parameter, $\lambda_{MLE}$:
+1. Determine formula for $LL(\theta)$
+
+\[
+\begin{aligned}
+LL(\theta) &= \sum_{i=1}^n log(\frac{1}{\sqrt{2 \pi} \sigma} e^{(-X_i-\mu)^2/(2\sigma^2)}) 
+= \sum_{i=1}^n [-log(\sqrt{2 \pi} \sigma) - (X_i-\mu)^2/(2 \sigma^2)] \\
+&= - \sum_{i=1}^n log(\sqrt{2 \pi} \sigma) - \sum_{i=1}^n [(X_i - \mu)^2 / (2 \sigma^2)]
+\end{aligned}
+\]
+
+2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+\[
+\begin{aligned}
+\frac{\delta LL(\theta)}{\delta \mu} &= \sum_{i=1}^n [2(X_i - \mu) / (2 \sigma^2)] = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \mu) = 0 \\
+\frac{\delta LL(\theta)}{\delta \sigma} &= \sum_{i=1}^n [2(X_i - \mu) / (2 \sigma^2)] = -\frac{n}{\sigma} + \frac{1}{\sigma^3} \sum_{i=1}^n (X_i - \mu)^2 = 0
+\end{aligned}
+\]
+
+3. Solve resulting equations
+$$
+\lambda_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i
+$$
+
+
+### MLE for Uniform
+
+  
+  

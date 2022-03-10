@@ -1,0 +1,87 @@
+---
+title: "CS109: Introduction to Probability for Computer Scientists"
+subtitle: "Section 8: Machine Learning"
+author: "Olivia Beyer Bruvik"
+date: "Winter 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Section 9: Review {.tabset}
+
+## Problem 1 {.tabset}
+### Problem: Flo. Tracking Menstrual Cycles
+Let 𝑋 represent the length of a menstrual cycle: the number of days, as a continuous value, between the first moment of one period to the first moment of the next, for a given person. 𝑋 is
+parameterized by 𝛼 and 𝛽 with probability density function:
+𝑓 (𝑋 = 𝑥) = 𝛽 · (𝑥 − 𝛼)𝛽−1𝑒−(𝑥−𝛼)2
+
+a. For a particular person, 𝛼 = 27 and 𝛽 = 2. Write a simplified version of the PDF of 𝑋.
+b. For a particular person, 𝛼 = 27 and 𝛽 = 2. Write an expression for the probability that they
+have their period on day 29. In other words, what is the 𝑃(29.0 < 𝑋 < 30.0)?
+c. For a particular person, 𝛼 = 27 and 𝛽 = 2. How many times more likely is their cycle tolast exactly 28.0 days than exactly 29.0 days? You do not need to give a numeric answer. Simplify your expression.
+d. A person has recorded their cycle length for 12 cycles stored in a list: 𝑚 = [29.0, 28.5, . . . , 30.1] where 𝑚𝑖is the recorded cycle length for cycle 𝑖. Use MLE to estimate the parameter values𝛼 and 𝛽. Assume that cycle lengths are IID. 
+
+You don’t need a closed form solution. Derive any necessary partial derivatives and write up to three sentences describing how a program can use the derivatives in order to chose the most likely parameter values.
+
+### Solution
+a. $f(X=x) = 2(x-27)e^{-(x-27)^2}$
+b. $p(29.0 < X < 30.0) = F_X(30.0) - F_X(29.0) \Rightarrow F_X = \int_{29.0}^{30.0} f(X=x)$
+c. $\frac{f(X=28.0)}{f(X=29.0)} = \frac{2(28-27)e^{-(28-27)^2}}{2(29-27)e^{-(29-27)^2}}$
+d. 
+
+\[
+\begin{aligned}
+L &= \prod_{i=1}^12 f(m_i) \\
+LL &= \sum_{i=1}^{12} log f(m_i) \\
+&= \sum_{i=1}^{12}log (\beta(m-\alpha)^{\beta-1}e^{-(m-\alpha)^2}) \\
+&= \sum_{i=1}^{12} \frac{log \beta + (\beta - 1) log(m_i-\alpha)}{-(m-\alpha)^2} \\
+\frac{\delta LL}{\delta \alpha} &= \sum_{i=1}^{12} 2(m_i - \alpha) - \frac{\beta -1}{m_i - \alpha} \\
+\frac{\delta LL}{\delta \beta} &= \sum_{i=1}^{12} \frac{1}{\beta} + log(m_i - \alpha)
+\end{aligned}
+\]
+
+Next, gradient descent: x small learning rate for param += gradient
+
+## Problem 2: logistic regression {.tabset}
+### Problem
+Suppose you have trained a logistic regression classifier that accepts as input a data point (𝑥1, 𝑥2)
+and predicts a class label 𝑌ˆ. The parameters of the model are (𝜃0, 𝜃1, 𝜃2) = (2, 2, −1). On the
+axes, draw the decision boundary 𝜃
+𝑇 x = 0 and clearly mark which side of the boundary predicts
+𝑌ˆ = 0 and which side predicts 𝑌ˆ = 1.
+
+### Solution
+$$
+P(Y=1|X=x) = \sigma(Z), where \ Z = \theta_0 + \sum_{i=1}^m \theta_ix_i \\
+Z= 2+2X_1 - X_2 \ when Z > 0, \sigma > 0.5 \Rightarrow Y=1
+$$
+
+Thus, 
+$$
+2+2X_1 - X_2 > 0 \Rightarrow X_2 < 2X_1 + 2 \\
+2 + 2X_1 - X_2 > 1 \Rightarrow X_2 < 2X_1 + 1 \\
+$$
+
+## Problem 3: Deep Learning
+### Problem: The Most Important Features
+Let’s explore saliency, a measure of how important a feature is for classification. We define the saliency of the 𝑖th input feature for a given example (x, 𝑦) to be the absolute value of the partial derivative of the log likelihood of the sample prediction, with respect to that input feature $|\frac{\delta LL}{\delta X_i}|$. In the images below, we show both input images and the corresponding saliency of the input features (in this case, input features are pixels). 
+
+First consider a trained logistic regression classifier with weights 𝜃. Like the logistic regression classifier that you wrote in your homework it predicts binary class labels. In this question we allow the values of x to be real numbers, which doesn’t change the algorithm (neither training nor testing).
+
+a. What is the Log Likelihood of a single training example (x, 𝑦) for a logistic regression classifier?
+b. Calculate the saliency of a single feature (𝑥𝑖) in a training example (x, 𝑦).
+c. Show that the ratio of saliency for features 𝑖 and 𝑗 is the ratio of the absolute value of their weights $|\frac{\theta_i}{\theta_2}|$
+
+### Solution
+$p = \sigma(\theta^Tx)$
+
+a. $LL\theta = ylog(p)+(1-y)log(1-p) = ylog \sigma(\theta^Tx)+(1-y)(log(1-\theta^Tx))$
+b. 
+\[
+\begin{aligned}
+\frac{\delta LL}{\delta X_i} = \frac{\delta LL}{\delta Z} \frac{\delta Z}{\delta X_i}
+\end{aligned}
+\]

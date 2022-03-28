@@ -3,8 +3,8 @@ title: 'CS109: Probability for Computer Scientists'
 author: "Olivia Beyer Bruvik"
 date: "`r Sys.Date()`"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
 subtitle: 'Lecture 23: Naive Bayes'
 ---
@@ -16,46 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # Lecture 23: Naive Bayes {.tabset}
 
 ## Topics
-
-## MLE vs. MAP {.tabset}
-Data: $x^{(1)}, ..., x^{(n)}$ <br>
-
-### Maximum Likelihood Estimation
-$$
-\hat{\theta_{MLE}} = argmax f(x^{(1)}, ..., x^{(n)}|\theta) \\
-= argmax (\sum_i log f(x^{(i)}|\theta))
-$$
-
-### Maximum A Posteriori
-$$
-\hat{\theta_{MAP}} = argmax f(\theta| x^{(1)}, ..., x^{(n)}) \\
-= argmax (log(g(\theta)) + \sum_i^n log (f(x^{(i)}|\theta)))
-$$
-
-### Notation
-$\theta$ is shorthand for the event: $\theta = \theta$ <br>
-$x^{(i)}$ is shorthand for the event: $X^{(i)} = x^{(i)}$ <br>
-
-$$
-\hat{\theta_{MAP}} = argmax f(\theta = \theta | X^{(1)} = x^{(1)}, ..., X^{(n)} = x^{(n)}) \\
-= argmax f(\theta | x^{(1)}, ..., x^{(n)}) \\
-$$
-
-## MAP for Bernoulli and Binomial
-Beta(a,b) is a conjugate prior for the probability of success in Bernoulli and Binomial distributions. 
-
-$$
-f(x) = \frac{1}{B(a,b)}x^{a-1}(1-x)^{b-1}
-$$
-
-- Prior: 
-  + Laplace prior: $Beta(a = 2, b = 2)$
-  + Saw $a+b-2 = 2$ imaginary trials: $a-1 = 1$ successes, $b-1 = 1$ failures
-- Experiment: Observe n+m new trials: n successes, m failures
-- Posterior: $Beta(a+n, b+m)$ = $Beta(2+n, 2+m)$
-- MAP: $p = \frac{a+n-1}{a+b+n+m-2} = \frac{n+1}{n+m+2}$
-
-Mode: Value with highest frequency. Argmax of distribution. <br>
 
 ## Conjugate distributions
 Map estimator:
@@ -210,14 +170,14 @@ $$
 #### MLE
 \[
 \begin{aligned}
-\hat P (Xi = 1|Y = 0) = \frac{\text{(# training examples where Xi = 1 and Y = 0)}}{\text{(# training examples where Y = 0)}}
+\hat P (Xi = 1|Y = 0) = \frac{\text{n(training examples where Xi = 1 and Y = 0)}}{\text{n(training examples where Y = 0)}}
 \end{aligned}
 \]
 
 #### MAP
 \[
 \begin{aligned}
-\hat P (Y = 1) = \frac{\text{(# training examples where Y = 1)+1}}{\text{(# training examples)+2}}
+\hat P (Y = 1) = \frac{\text{n(training examples where Y = 1)+1}}{\text{n(training examples)+2}}
 \end{aligned}
 \]
 

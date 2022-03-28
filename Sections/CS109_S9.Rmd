@@ -82,6 +82,8 @@ a. $LL\theta = ylog(p)+(1-y)log(1-p) = ylog \sigma(\theta^Tx)+(1-y)(log(1-\theta
 b. 
 \[
 \begin{aligned}
-\frac{\delta LL}{\delta X_i} = \frac{\delta LL}{\delta Z} \frac{\delta Z}{\delta X_i}
+\frac{\delta LL}{\delta X_i} &= \frac{\delta LL}{\delta Z} \frac{\delta Z}{\delta X_i} \\
+&= \frac{\delta(ylogz+(1-y)log(1-z))}{\sigma z} \frac{\delta \sigma(\theta^Tx)}{\delta x_i}
 \end{aligned}
 \]
+c. $\frac{S_i}{S_j} &= \frac{|\frac{\delta LL}{\delta X_i}|}{|\frac{\delta LL}{\delta X_j}|} = \frac{|\theta_i|}{|\theta_j|}$

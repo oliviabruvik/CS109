@@ -3,9 +3,10 @@ title: 'CS109: Probability for Computer Scientists'
 author: "Olivia Beyer Bruvik"
 date: "`r Sys.Date()`"
 output:
+  word_document: default
   html_document: default
+  output_dir: /Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports
   pdf_document: default
-  output_dir: "/Users/oliviabeyerbruvik/Documents/Stanford/Y1Q2/CS109/CS109_markdowns/reports"
 subtitle: 'Lecture 26: Deep Learning'
 ---
 

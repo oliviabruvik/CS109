@@ -3,8 +3,8 @@ title: 'CS109: Introduction to Probability for Computer Scientists'
 author: "Olivia Beyer Bruvik"
 date: "Winter 2022"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 subtitle: 'Lecture 15: General Inference'
 ---
 
@@ -127,8 +127,8 @@ P(F_{lu} = 1 | U = 1, T=1) = \frac{\sum_y P(F_{lu} = 1, F_{ev} = y, U = 1, T=1)}
 $$
 probability \approx 
 \frac{
-  \text{# samples with } (F_{lu} = 1, U = 1, T = 1)}
-  {\text{# samples with } (U = 1, T = 1)
+  \text{n(samples with } (F_{lu} = 1, U = 1, T = 1))}
+  {\text{n(samples with } (U = 1, T = 1))
 }
 $$
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Olivia Beyer Bruvik" />
 
-<meta name="date" content="2022-03-04" />
+<meta name="date" content="2022-03-16" />
 
 <title>CS109: Probability for Computer Scientists</title>
 
@@ -352,7 +352,7 @@ pre code {
 <h1 class="title toc-ignore">CS109: Probability for Computer Scientists</h1>
 <h3 class="subtitle">Lecture 23: Naive Bayes</h3>
 <h4 class="author">Olivia Beyer Bruvik</h4>
-<h4 class="date">2022-03-04</h4>
+<h4 class="date">2022-03-16</h4>
 
 </div>
 
@@ -361,50 +361,6 @@ pre code {
 <h1>Lecture 23: Naive Bayes</h1>
 <div id="topics" class="section level2">
 <h2>Topics</h2>
-</div>
-<div id="mle-vs.-map" class="section level2 tabset">
-<h2>MLE vs. MAP</h2>
-<p>Data: <span class="math inline">\(x^{(1)}, ..., x^{(n)}\)</span> <br></p>
-<div id="maximum-likelihood-estimation" class="section level3">
-<h3>Maximum Likelihood Estimation</h3>
-<p><span class="math display">\[
-\hat{\theta_{MLE}} = argmax f(x^{(1)}, ..., x^{(n)}|\theta) \\
-= argmax (\sum_i log f(x^{(i)}|\theta))
-\]</span></p>
-</div>
-<div id="maximum-a-posteriori" class="section level3">
-<h3>Maximum A Posteriori</h3>
-<p><span class="math display">\[
-\hat{\theta_{MAP}} = argmax f(\theta| x^{(1)}, ..., x^{(n)}) \\
-= argmax (log(g(\theta)) + \sum_i^n log (f(x^{(i)}|\theta)))
-\]</span></p>
-</div>
-<div id="notation" class="section level3">
-<h3>Notation</h3>
-<p><span class="math inline">\(\theta\)</span> is shorthand for the event: <span class="math inline">\(\theta = \theta\)</span> <br> <span class="math inline">\(x^{(i)}\)</span> is shorthand for the event: <span class="math inline">\(X^{(i)} = x^{(i)}\)</span> <br></p>
-<p><span class="math display">\[
-\hat{\theta_{MAP}} = argmax f(\theta = \theta | X^{(1)} = x^{(1)}, ..., X^{(n)} = x^{(n)}) \\
-= argmax f(\theta | x^{(1)}, ..., x^{(n)}) \\
-\]</span></p>
-</div>
-</div>
-<div id="map-for-bernoulli-and-binomial" class="section level2">
-<h2>MAP for Bernoulli and Binomial</h2>
-<p>Beta(a,b) is a conjugate prior for the probability of success in Bernoulli and Binomial distributions.</p>
-<p><span class="math display">\[
-f(x) = \frac{1}{B(a,b)}x^{a-1}(1-x)^{b-1}
-\]</span></p>
-<ul>
-<li>Prior:
-<ul>
-<li>Laplace prior: <span class="math inline">\(Beta(a = 2, b = 2)\)</span></li>
-<li>Saw <span class="math inline">\(a+b-2 = 2\)</span> imaginary trials: <span class="math inline">\(a-1 = 1\)</span> successes, <span class="math inline">\(b-1 = 1\)</span> failures</li>
-</ul></li>
-<li>Experiment: Observe n+m new trials: n successes, m failures</li>
-<li>Posterior: <span class="math inline">\(Beta(a+n, b+m)\)</span> = <span class="math inline">\(Beta(2+n, 2+m)\)</span></li>
-<li>MAP: <span class="math inline">\(p = \frac{a+n-1}{a+b+n+m-2} = \frac{n+1}{n+m+2}\)</span></li>
-</ul>
-<p>Mode: Value with highest frequency. Argmax of distribution. <br></p>
 </div>
 <div id="conjugate-distributions" class="section level2">
 <h2>Conjugate distributions</h2>
@@ -518,7 +474,7 @@ p_i = \frac{n_i + 1}{n+m}
 m = |x^{(i)}|
 \]</span></p>
 <p>where each of the n training datapoints has m features and a single output.</p>
-<div id="notation-1" class="section level3">
+<div id="notation" class="section level3">
 <h3>Notation</h3>
 <ul>
 <li>Single instance: <span class="math inline">\((x^{(i)}, y^{(i)})\)</span> such that <span class="math inline">\(1 \leq i \leq n\)</span></li>

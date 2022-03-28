@@ -3,8 +3,8 @@ title: 'CS109: Introduction to Probability for Computer Scientists'
 author: "Olivia Beyer Bruvik"
 date: "Winter 2022"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 subtitle: 'Lecture 16: Beta'
 ---
 
@@ -12,150 +12,98 @@ subtitle: 'Lecture 16: Beta'
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Lecture 15: General Inference {.tabset}
+# Lecture 16: Beta: The RV for Probabilities {.tabset}
 
 ## Topics
 
-## Inference
-### Bayes with RV
-Let M be a discrete RV. <br>
-Let N be a discrete RV. 
+## Introduction to Beta
+The parameter p to a binomial can be a random variable.
 
+### Example: flip a coin with unknown probability {.tabset}
+n=9 heads out of n+m=10 flips. Belief in p: $p = \frac{9}{10}$
+
+Let X be our belief about the probability of heads:
 $$
-P(M=m|N=n) = \frac{P(N=n|M=m)P(M=m)}{P(N=n)} \\
-P(m|n) = \frac{P(n|m)P(m)}{P(n)}
-$$
-
-### Inference on a non-bernoulli RV
-Run bayes for each value
-
-```{python, eval = FALSE}
-def update(belief, obs):
-  
-```
-
-
-### Constructing a Bayesian Network {.tabset}
-#### Bayesian Network
-Each RV is caused by its parents. <br>
-Def: $P(node|parents)$
-
-- Node: random variable
-- Directed edge: causality
-
-Generative model: a good probabilistic model is generative. It explains the process through which the joint is created.
-
-#### Bayes Nets: Conditional independence
-In a bayesian network, each RV is conditionally independent of its non-descendants, given its parents. 
-
-- Node: random variable
-- Directed edge: conditional dependency
-
-### Bayesian Network Assumption
-$P(Joint) = \prod{P(x_i|x_{i-1}, ..., x_1)}$ <br>
-$P(Joint) = \prod{ P(x_i | \text{Values of parents of } X_i)}$ <br>
-
-Assume: Once you know the value of the parents of a variable in your network, $X_i$, any further information about non-descendents will not change your belief in $X_i$.
-
-## Covariance and Correlation {.tabset}
-### Covariance:
-\[
-\begin{aligned}
-Cov(X,Y) &= E[(X-E[X])(Y-E[Y])] \\
-&= E[XY] - E[Y]E[X]
-\end{aligned}
-\]
-
-NB! Covariance of zero does not mean independence!
-
-### Correlation
-\[
-\begin{aligned}
-\rho (X,Y) = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}
-\end{aligned}
-\]
-
-Correlation is just normalized covariance:
-\[
-\begin{aligned}
-Cov(X,Y) < \sqrt{Var(X)Var(Y)} \\
-Cov(X,Y) > -\sqrt{Var(X)Var(Y)}
-\end{aligned}
-\]
-
-## Inference {.tabset}
-An updated belief about a random variable (or multiple) based on conditional knowledge regarding another random variable (or multiple) in a probabilistic model.
-
-### Problem: Simple Disease Model
-Parents:
-\[
-\begin{aligned}
-P(F_lu = 1) &= 0.1 \\
-P(U = 1) &= 0.8
-\end{aligned}
-\]
-
-Nodes:
-\[
-\begin{aligned}
-P(F_ev = 1| F_lu = 1) &= 0.9 \\
-P(F_ev = 1| F_lu = 0) &= 0.05 \\
-\\
-P(T = 1| F_lu = 0, U = 0) &= 0.1 \\
-P(T = 1| F_lu = 0, U = 1) &= 0.8 \\
-P(T = 1| F_lu = 1, U = 0) &= 0.9 \\
-P(T = 1| F_lu = 0, U = 1) &= 1.0 \\
-\end{aligned}
-\]
-
-Problem:
-\[
-\begin{aligned}
-P(F_{lu} = 1 | F_{ev} = 0, U = 0, T=1)? \\
-P(F_{lu} = 1 | U = 1, T=1)
-\end{aligned}
-\]
-
-### Solution
-```{python, eval = FALSE}
-def get_prob_Xi(x, parents):
-  # what is the probability that Xi = x
-  # given the list parents of assignments to 
-  # the parents variables Xi
-```
-
-Probability conditioning on three variables:
-\[
-\begin{aligned}
-P(F_{lu} = 1 | F_{ev} = 0, U = 0, T=1) = \frac{P(F_{lu} = 1, F_{ev} = 0, U = 0, T=1)}{\sum_xP(F_{lu} = x, F_{ev} = 0, U = 0, T=1)}
-\end{aligned}
-\]
-
-Probability conditioning on two variables:
-\[
-\begin{aligned}
-P(F_{lu} = 1 | U = 1, T=1) = \frac{\sum_y P(F_{lu} = 1, F_{ev} = y, U = 1, T=1)}{\sum_x \sum_y P(F_{lu} = x, F_{ev} = y, U = 0, T=1)}
-\end{aligned}
-\]
-
-## Rejection sampling algorithm
-0. Have a fully specified Bayesian Network
-1. 
-
-$$
-probability \approx 
-\frac{
-  \text{# samples with } (F_{lu} = 1, U = 1, T = 1)}
-  {\text{# samples with } (U = 1, T = 1)
-}
+P(X=x|H=9,T=1) = \frac{P(H=9,T=1|X=x)f(X=x)}{P(H=9, T=1)} 
+= \frac{{10 \choose 9} x^9 (1-x)^1}{P(H=9, T=1)}
+= K \times x^9(1-x)^1
 $$
 
-Possible due to our definition of probability as a frequency.
+#### Frequentist approach (never prior)
 $$
-P(E) = \lim_{x \to \infty} \frac{n(E)}{n}
+X = lim_{n+m \Rightarrow \infty} \frac{n}{n+m} \approx \frac{n}{n+m}
 $$
 
-### Other algorithms
-1. Markov Chains Monte Carlo
-2. Pyro
-3. Idea2Text
+#### Bayesian (with prior)
+$$
+F_{X|N}(x|n) = \frac{P(N=n|X=x)f_X(x)}{P(N=n)} = 
+\frac{{{n+m} \choose n} x^n (1-x)^m}{P(N=n)} =
+\frac{{{n+m} \choose n}}{P(N=n)}x^n (1-x)^m
+$$
+
+## Beta Derivation
+If you start with a X~Uni(0,1) prior over probability, and observe:
+
+- n "successes"
+- m "failures"
+
+Your new belief about the probability is:
+$$
+f_X(x) = \frac{1}{c} \times x^n(1-x)^m \ where \ c = \int_0^1 x^n(1-x)^m
+$$
+
+## Beta Random Variable
+- A belief distribution over the value of a probability p from a Binomial distribution after observing a-1 successes and b-1 fails.
+- X is a Beta Random Variable: $X \sim Beta(a,b)$
+- Parameters: 
+    + $a = successes + 1$
+    + $b = failures + 1$
+    
+Probability Density Function (PDF): 
+\[
+\begin{cases}
+  \frac{1}{B(a,b)}x^{a-1}(1-x)^{b-1} & 0<x<1 \\
+  0 & otherwise
+\end{cases}
+\ where \ B(a,b) = \int_0^1x^{a-1}(1-x)^{b-1}dx
+\]
+
+$$
+E[X] = \frac{a}{a+b} \\
+Var(X) = \frac{ab}{(a+b)^2(a+b+1)}
+$$
+
+## Beta as a conjugate distribution
+For Beta, prior and posterior parametric forms are the same: if prior distribution of X is Beta, then the posterior distribution of X is Beta.
+
+$X|N \sim Beta(n+a, m+b)$:
+\[
+\begin{aligned}
+f(X=x|N=n) &= \frac{{{n+m} \choose n }x^n (1-x)^m f(X=x)}{P(N=n)} \\
+&= K_1 {{n+m} \choose n}x^n (1-x)^m \frac{1}{B(a,b)}x^{a-1}(1-x)^{b-1} \\
+&= K_3 x^{n}(1-x)^{m}x^{a-1}(1-x)^{b-1} \\
+&= K_3 x^{n+a-1}(1-x)^{m+b-1}
+\end{aligned}
+\]
+
+## Beta(a=1,b=1) = Uni(0,1)
+$X | (N = n, M = m) \sim Beta(a = n + 1, b = m + 1)$
+- Prior $X \sim Uni(0,1)$
+- $Beta(a=1,b=1) = \frac{1}{B(a,b)}x^0(1-x)^0 = \frac{1}{\int_0^1 1 dx}1 = 1$
+- Prior $X \sim Beta(a=1,b=1)$
+
+## Laplace Smoothing
+$$
+prior: \ X \sim Beta(a=2, b=2)
+$$
+
+## Example: Optimal Decision Making
+You try drug B five times. It is successful 2 times. 
+
+- If you had a uniform prior, what is your posterior belief about the likelihood of success:
+    + $X \sim Beta(a=3, b=4)$
+- What is the expectation of X?
+    + $E[X] = \frac{a}{a+b} = \frac{3}{3+4} \approx 0.43$
+- What is the probability that X > 0.6?
+    + $P(X>0.6) = 1-P(X<0.6) = 1-F_X(0.6) = 1-stats.beta.cdf(0.6, 3, 4) = 0.1792$
+

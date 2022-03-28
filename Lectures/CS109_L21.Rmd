@@ -30,7 +30,6 @@ knitr::opts_chunk$set(echo = TRUE)
 - Often referred to as $\theta$, which can also be a vector of parameters. 
 - Used to model real world problem and train a learning algorithm. 
 
-## Parameter estimation {.tabset}
 ### Unbiased estimators
 $X_1, X_2, ..., X_n$ are n i.i.d. RV. where $X_i$ drawn from distribution F with $E[X_i] = \mu, Var(X_i) = \sigma^2$:
 
@@ -82,7 +81,7 @@ LL(\theta) &= \sum_{i=1}^n logf(X_i|p) = \sum_{i=1}^n log (p^{X_i}(1-p)^{1-X_i})
 \end{aligned}
 \]
 
-2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+2. Differentiate $LL(\theta)$ w.r.t. each $\theta$, set to 0
 
 $$
 \frac{\delta LL(\theta)}{\delta \theta} = Y \frac{1}{p} + (n-Y) \frac{-1}{1-p} = 0
@@ -110,7 +109,7 @@ LL(\theta) &= \sum_{i=1}^n log(\frac{e^{-\lambda} \lambda^{X_i}}{X_i!}) = \sum_{
 \end{aligned}
 \]
 
-2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+2. Differentiate $LL(\theta)$ w.r.t. each $\theta$, set to 0
 
 $$
 \frac{\delta LL(\theta)}{\delta \lambda} = -n + \frac{1}{\lambda} \sum_{i=1}^n X_i = 0
@@ -138,7 +137,7 @@ LL(\theta) &= \sum_{i=1}^n log(\frac{1}{\sqrt{2 \pi} \sigma} e^{(-X_i-\mu)^2/(2\
 \end{aligned}
 \]
 
-2. Differentiate LL(\theta) w.r.t. each \theta, set to 0
+2. Differentiate $LL(\theta)$ w.r.t. each $\theta$, set to 0
 \[
 \begin{aligned}
 \frac{\delta LL(\theta)}{\delta \mu} &= \sum_{i=1}^n [2(X_i - \mu) / (2 \sigma^2)] = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \mu) = 0 \\
@@ -148,11 +147,16 @@ LL(\theta) &= \sum_{i=1}^n log(\frac{1}{\sqrt{2 \pi} \sigma} e^{(-X_i-\mu)^2/(2\
 
 3. Solve resulting equations
 $$
-\lambda_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i
+\mu_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i \\ 
+\sigma_{MLE} = \frac{1}{n} \sum_{i=1}^n (X_i - \mu_{MLE})^2
 $$
 
+## Properties of MLE
+MLE are generally:
 
-### MLE for Uniform
-
+1. Consistent
+2. Potentially biased (though asymptotically less so)
+3. Asymptotically optimal (has smallest variance of good estimators for large samples)
+4. Often used in practice (when sample size >> parameter space)
   
   
